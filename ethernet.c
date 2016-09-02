@@ -13,7 +13,6 @@
 
 #include <string.h>
 #include <stdio.h>
-#include <stdio.h>
 #include "ethernet.h"
 #include "ip.h"
 #include "arp.h"
@@ -50,6 +49,7 @@ static void physical_ready(CnetEvent ev, CnetTimerID timer, CnetData data)
     char packet[MAX_MESSAGE_SIZE];
     CHECK(CNET_read_physical(&link, packet, &length));
     EthernetHeader *header = (EthernetHeader *) packet;
+    ETHER_PACKET ethernetPacket;        //ethernet frame/packet that can represent the payload
 
     if (!packet_is_for_this_node(header))
         return;
@@ -59,7 +59,9 @@ static void physical_ready(CnetEvent ev, CnetTimerID timer, CnetData data)
             ip_accept(packet + ETHERNET_HEADER_SIZE, length - ETHERNET_HEADER_SIZE);
             break;
         case ETHERTYPE_ARP:
-            fprintf(stderr, "WHOOPS! Looks like you haven't handled ARP packets yet :)\n");
+            ethernet_send(header->destination, header->type, etherPacket.payload, length);      //this will send the ARP packet to my code
+            fprintf(stderr, "Now the ARP packets are handled :)\n", );
+            //fprintf(stderr, "WHOOPS! Looks like you haven't handled ARP packets yet :)\n");
             break;
         default:
             fprintf(stderr, "Unknown Ethernet packet type: %u\n", header->type);
