@@ -1,7 +1,7 @@
 /*
  * ethernet.c
  *
- * David C. Harrison (davidh@ecs.vuw.ac.nz) September 2014
+ * By Marc Laroza modified from David C Harrison (david.harrison@ecs.vuw.ac.nz) code September 2016
  *
  * Simplistic Ethernet data-link layer for cnet v3.2.4, tightly coupled to the
  * associated IP network layer and the cnet physical layer.
@@ -46,7 +46,7 @@ static int packet_is_for_this_node(EthernetHeader *header)
 static void physical_ready(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
     int link = 1;
-    size_t length;
+    size_t length = MAX_MESSAGE_SIZE;
     char packet[MAX_MESSAGE_SIZE];
     CHECK(CNET_read_physical(&link, packet, &length));
     EthernetHeader *header = (EthernetHeader *) packet;
