@@ -1,7 +1,7 @@
 /*
  * stopandwait.c
  *
- * David C. Harrison (davidh@ecs.vuw.ac.nz) September 2014
+ * By Marc Laroza modified from David C Harrison (david.harrison@ecs.vuw.ac.nz) code September 2016
  *
  * This is a Modified version of the cnet v3.2.4 provided stop-and-wait
  * protocol, used here at the transport layer. This implementation supports
@@ -120,7 +120,7 @@ static void send_message(CnetAddr destaddr, PacketType type, char *payload, size
 
 static void on_application_ready(CnetEvent ev, CnetTimerID timer, CnetData data)
 {
-    size_t length;
+    size_t length = MAX_MESSAGE_SIZE;
     CnetAddr destaddr;
     char payload[MAX_MESSAGE_SIZE];
     CHECK(CNET_read_application(&destaddr, payload, &length));
