@@ -11,6 +11,7 @@
 #include <cnet.h>
 
 bool arp_get_mac_address(CnetAddr cnetAddress, CnetNICaddr macAddress);
+void handle_arp_packet(char *packet);   
 
 #endif	/* _ARP_H_ */
 
